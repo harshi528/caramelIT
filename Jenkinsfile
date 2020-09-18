@@ -29,10 +29,14 @@ pipeline{
         }
         stage("Building"){
             steps{
+                 withSonarQubeEnv('SonarQube') {
+                sh 'mvn clean package sonar:sonar'
+              //    archiveArtifacts '**/*.war'
+          
                 sh 'mvn -v'
-                sh label: '', script: 'mvn package'
-                archiveArtifacts artifacts: '**/*.war', followSymlinks: false
-            }
+             //   sh label: '', script: 'mvn package'
+               archiveArtifacts artifacts: '**/*.war', followSymlinks: false
+            }    }
         }
         stage("Deployment-AppServer"){
             steps{
